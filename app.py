@@ -53,7 +53,18 @@ def create_task():
     tasks.append(task)
     return jsonify({'task': task}), 201
 
+# PUT/UPDATE
+@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['PUT'])
+def update_task(task_id):
+    if not request.json:
+        abort(400)
 
+    for task in tasks:
+        if task['id'] == task_id:
+            task['title'] = request.json.get('title', task['title'])
+            task['description'] = request.json.get('description', task['description'])
+            task['done'] = request.json.get('done', task['done'])
+            return jsonify({'task': task})
 
 if __name__ == '__main__':
     app.run(debug=True)
