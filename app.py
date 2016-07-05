@@ -66,5 +66,15 @@ def update_task(task_id):
             task['done'] = request.json.get('done', task['done'])
             return jsonify({'task': task})
 
+@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+        
+    for i in range(len(tasks)):
+        if tasks[i]['id'] == task_id:
+            del tasks[i]
+            return jsonify({'status' : True})
+
+    abort(400)
+
 if __name__ == '__main__':
     app.run(debug=True)
